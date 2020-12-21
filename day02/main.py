@@ -23,7 +23,8 @@ def part1():
         result = 0
         for line in f.readlines():
             minimum, maximum, char, password = parse(line)
-            result = result + 1 if is_valid1(minimum, maximum, char, password) else result
+            if is_valid1(minimum, maximum, char, password):
+                result += 1
 
         print(result)
 
@@ -38,7 +39,8 @@ def part2():
         result = 0
         for line in f.readlines():
             pos1, pos2, char, password = parse(line)
-            result = result + 1 if is_valid2(pos1, pos2, char, password) else result
+            if is_valid2(pos1, pos2, char, password):
+                result += 1
 
         print(result)
 
