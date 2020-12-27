@@ -1,0 +1,23 @@
+name: aoc2020
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install node dependencies
+        run: npm install
+
+      - name: Compile
+        run: npx spago build
+
+      - name: Run
+        run: npx spago run

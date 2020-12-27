@@ -1,0 +1,7 @@
+{
+  "name": "aoc2020",
+  "devDependencies": {
+    "purescript": "^0.13.8",
+    "spago": "^0.18.1"
+  }
+}
