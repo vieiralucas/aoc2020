@@ -12,8 +12,8 @@ import Effect (Effect)
 import Node.Encoding (Encoding(UTF8))
 import Node.FS.Sync (readTextFile)
 
-
-data Pos = Pos { x :: Int, y :: Int }
+data Pos
+  = Pos { x :: Int, y :: Int }
 
 posX :: Pos -> Int
 posX (Pos { x }) = x
@@ -25,6 +25,7 @@ pos :: Int -> Int -> Pos
 pos x y = Pos { x, y }
 
 derive instance eqPos :: Eq Pos
+
 derive instance ordPos :: Ord Pos
 
 instance showPos :: Show Pos where
@@ -36,25 +37,29 @@ instance addPos :: Semiring Pos where
   mul p1 p2 = Pos { x: posX p1 * posX p2, y: posY p1 * posY p2 }
   one = pos 1 1
 
-data TreeMap = TreeMap { width :: Int, height :: Int, trees :: Set Pos }
+data TreeMap
+  = TreeMap { width :: Int, height :: Int, trees :: Set Pos }
 
 treeMapHeight :: TreeMap -> Int
 treeMapHeight (TreeMap { height }) = height
-   
+
 derive instance eqTreeMap :: Eq TreeMap
+
 derive instance ordTreeMap :: Ord TreeMap
 
 instance showTreeMap :: Show TreeMap where
-  show (TreeMap { width, height, trees}) =
+  show (TreeMap { width, height, trees }) =
     "TreeMap { width: " <> show width
-    <> ", height: " <> show height
-    <> ", trees: " <> show trees <> " }"
+      <> ", height: "
+      <> show height
+      <> ", trees: "
+      <> show trees
+      <> " }"
 
 hasTree :: Pos -> TreeMap -> Boolean
-hasTree (Pos { x, y }) (TreeMap { width, trees }) =
-  member (pos x' y) trees
+hasTree (Pos { x, y }) (TreeMap { width, trees }) = member (pos x' y) trees
   where
-    x' = x `mod` width
+  x' = x `mod` width
 
 walk :: Pos -> Pos -> Int -> TreeMap -> Int
 walk position direction count treeMap =
@@ -63,29 +68,31 @@ walk position direction count treeMap =
   else
     count'
   where
-    count' =
-      if hasTree position treeMap then
-        count + 1
-      else
-        count
+  count' =
+    if hasTree position treeMap then
+      count + 1
+    else
+      count
 
 parseLine :: Int -> String -> Array Pos
 parseLine y = catMaybes <<< mapWithIndex mapper <<< toCharArray
   where
-    mapper x c =
-      if c == '#' then
-        Just (pos x y)
-      else
-        Nothing
+  mapper x c =
+    if c == '#' then
+      Just (pos x y)
+    else
+      Nothing
 
 fetchInput :: Effect TreeMap
 fetchInput = do
   input <- lines <<< trim <$> readTextFile UTF8 "data/day03/input.txt"
-  let height = length input
-  let width = fromMaybe 0 $ length <<< toCharArray <$> input !! 0
-  let trees = fromFoldable <<< concat <<< mapWithIndex parseLine $ input
+  let
+    height = length input
+  let
+    width = fromMaybe 0 $ length <<< toCharArray <$> input !! 0
+  let
+    trees = fromFoldable <<< concat <<< mapWithIndex parseLine $ input
   pure $ TreeMap { width, height, trees }
-
 
 part1 :: Effect Int
 part1 = walk zero (pos 3 1) 0 <$> fetchInput
@@ -94,5 +101,5 @@ part2 :: Effect Int
 part2 = do
   input <- fetchInput
   pure $ product $ (\p -> walk zero p 0 input) <$> slopes
-  where 
-    slopes = [pos 1 1, pos 3 1, pos 5 1, pos 7 1, pos 1 2]
+  where
+  slopes = [ pos 1 1, pos 3 1, pos 5 1, pos 7 1, pos 1 2 ]
