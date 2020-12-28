@@ -100,6 +100,6 @@ part1 = walk zero (pos 3 1) 0 <$> fetchInput
 part2 :: Effect Int
 part2 = do
   input <- fetchInput
-  pure $ product $ (\p -> walk zero p 0 input) <$> slopes
+  pure $ product $ (\s -> walk zero s 0 input) <$> slopes
   where
   slopes = [ pos 1 1, pos 3 1, pos 5 1, pos 7 1, pos 1 2 ]
