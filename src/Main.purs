@@ -24,3 +24,5 @@ main = do
   log "Day 03:"
   d3p1 <- D03.part1
   log $ "part1: " <> show d3p1
+  d3p2 <- D03.part2
+  log $ "part2: " <> show d3p2

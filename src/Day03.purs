@@ -3,7 +3,7 @@ module Day03 where
 import Prelude
 import Data.Array (concat, mapWithIndex, catMaybes, (!!))
 import Data.Set (Set, fromFoldable, member)
-import Data.Foldable (length)
+import Data.Foldable (length, product)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.String (trim)
 import Data.String.CodeUnits (toCharArray)
@@ -89,3 +89,10 @@ fetchInput = do
 
 part1 :: Effect Int
 part1 = walk zero (pos 3 1) 0 <$> fetchInput
+
+part2 :: Effect Int
+part2 = do
+  input <- fetchInput
+  pure $ product $ (\p -> walk zero p 0 input) <$> slopes
+  where 
+    slopes = [pos 1 1, pos 3 1, pos 5 1, pos 7 1, pos 1 2]
