@@ -7,6 +7,7 @@ import Day01 as D01
 import Day02 as D02
 import Day03 as D03
 import Day04 as D04
+import Day05 as D05
 
 main :: Effect Unit
 main = do
@@ -33,3 +34,7 @@ main = do
   log $ "part1: " <> show d4p1
   d4p2 <- D04.part2
   log $ "part2: " <> show d4p2
+  log "-"
+  log "Day 05:"
+  d5p1 <- D05.part1
+  log $ "part1: " <> show d5p1
