@@ -1,8 +1,9 @@
 module Day05 where
 
 import Prelude
-import Data.Array (mapWithIndex, reverse)
-import Data.Foldable (sum, maximum)
+import Data.Array (mapWithIndex, range, reverse, concat, (\\))
+import Data.Set (fromFoldable, member)
+import Data.Foldable (sum, maximum, find)
 import Data.Int (pow)
 import Data.Maybe (Maybe)
 import Data.String (splitAt)
@@ -38,6 +39,32 @@ seatFromString str =
 
 fetchInput :: Effect (Array String)
 fetchInput = lines <$> readTextFile UTF8 "data/day05/input.txt"
+
+allSeats :: Array Seat
+allSeats =
+  concat
+    $ map
+        ( \row ->
+            map (\col -> { row, col }) cols
+        )
+        rows
+  where
+  rows = range 0 127
+
+  cols = range 0 7
+
+part2 :: Effect (Maybe Int)
+part2 = do
+  inputSeats <- map (seatId <<< seatFromString) <$> fetchInput
+  let
+    diff = fromFoldable $ (map seatId allSeats) \\ inputSeats
+  pure
+    $ find
+        ( \sId ->
+            not (member (sId + 1) diff)
+              && not (member (sId - 1) diff)
+        )
+        diff
 
 part1 :: Effect (Maybe Int)
 part1 =

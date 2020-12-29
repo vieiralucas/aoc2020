@@ -9,7 +9,6 @@ You can edit this file as you like.
   , "generics-rep"
   , "node-buffer"
   , "node-fs"
-  , "parseint"
   , "psci-support"
   , "stringutils"
   , "unicode"

@@ -38,3 +38,5 @@ main = do
   log "Day 05:"
   d5p1 <- D05.part1
   log $ "part1: " <> show d5p1
+  d5p2 <- D05.part2
+  log $ "part2: " <> show d5p2
